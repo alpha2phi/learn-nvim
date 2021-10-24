@@ -1,6 +1,6 @@
-local reload = {}
+local M = {}
 
-reload.reload_module = function(module_name, starts_with_only)
+M.reload_module = function(module_name, starts_with_only)
   local matcher
   if not starts_with_only then
     matcher = function(pack)
@@ -19,4 +19,4 @@ reload.reload_module = function(module_name, starts_with_only)
   end
 end
 
-return reload
+return M

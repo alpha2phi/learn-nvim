@@ -1,7 +1,6 @@
-local api = vim.api
-local autocmd = require "learn-nvim.popup.autocmd"
-
 local M = {}
+
+local api = vim.api
 
 local default_opts = {
   relative = "editor",
@@ -41,7 +40,7 @@ local function create_win(row, col, width, height, relative, focusable)
   }
 end
 
-local function createTopLine(char, str, width)
+local function create_top_line(char, str, width)
   local len
   if str == nil then
     len = 2
@@ -68,7 +67,7 @@ local function fill_border_data(buf, width, height, title, border_chars)
   border_chars.MID_VERTICAL = border_chars.MID_VERTICAL or " "
   border_chars.BOTTOM_LEFT = border_chars.BOTTOM_LEFT or " "
   border_chars.BOTTOM_RIGHT = border_chars.BOTTOM_RIGHT or " "
-  local topLine = createTopLine(border_chars.MID_HORIZONTAL, title, width)
+  local topLine = create_top_line(border_chars.MID_HORIZONTAL, title, width)
   local border_lines = { border_chars.TOP_LEFT .. topLine .. border_chars.TOP_RIGHT }
   local middle_line = border_chars.MID_VERTICAL .. string.rep(" ", width) .. border_chars.MID_VERTICAL
   for _ = 1, height do
@@ -114,12 +113,13 @@ function M.create_win(opts)
   end
 
   if opts.border then
-    local autocmds = {
-      ["BufDelete,BufWipeout"] = string.format("bwipeout! %s", border_buf),
-      ["nested"] = true,
-      ["once"] = true,
-    }
-    autocmd.addCommand(win_buf_pair.buf, autocmds)
+    local action = string.format("bwipeout! %s", border_buf)
+    local command = string.format(
+      "autocmd BufDelete,BufWipeout <buffer=%s> ++nested ++once %s",
+      win_buf_pair.buf,
+      action
+    )
+    vim.cmd(command)
   end
   return win_buf_pair
 end
