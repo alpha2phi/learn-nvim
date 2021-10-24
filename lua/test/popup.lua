@@ -9,6 +9,7 @@ local function create_floating_win()
     width = math.ceil(editorWidth * 0.8),
     border = true,
     title = "Floating Window",
+    text = "A floating window created using Neovim APIs",
   }
   opts.row = math.ceil((editorHeight - opts.height) / 2 - 1)
   opts.col = math.ceil((editorWidth - opts.width) / 2)

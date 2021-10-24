@@ -40,7 +40,7 @@ local function create_win(row, col, width, height, relative, focusable)
   }
 end
 
-local function create_top_line(char, str, width)
+local function set_title(delimiter, str, width)
   local len
   if str == nil then
     len = 2
@@ -49,17 +49,17 @@ local function create_top_line(char, str, width)
   end
   local returnString = ""
   if len ~= 2 then
-    returnString = returnString .. string.rep(char, math.floor(width / 2 - len / 2)) .. " " .. str .. " "
+    returnString = returnString .. string.rep(delimiter, math.floor(width / 2 - len / 2)) .. " " .. str .. " "
     local remaining = width - (len + math.floor(width / 2 - len / 2))
-    returnString = returnString .. string.rep(char, remaining)
+    returnString = returnString .. string.rep(delimiter, remaining)
     return returnString
   else
-    returnString = returnString .. string.rep(char, width)
+    returnString = returnString .. string.rep(delimiter, width)
     return returnString
   end
 end
 
-local function fill_border_data(buf, width, height, title, border_chars)
+local function fill_border(buf, width, height, title, border_chars)
   border_chars = border_chars or default_border_chars
   border_chars.TOP_LEFT = border_chars.TOP_LEFT or " "
   border_chars.TOP_RIGHT = border_chars.TOP_RIGHT or " "
@@ -67,7 +67,7 @@ local function fill_border_data(buf, width, height, title, border_chars)
   border_chars.MID_VERTICAL = border_chars.MID_VERTICAL or " "
   border_chars.BOTTOM_LEFT = border_chars.BOTTOM_LEFT or " "
   border_chars.BOTTOM_RIGHT = border_chars.BOTTOM_RIGHT or " "
-  local topLine = create_top_line(border_chars.MID_HORIZONTAL, title, width)
+  local topLine = set_title(border_chars.MID_HORIZONTAL, title, width)
   local border_lines = { border_chars.TOP_LEFT .. topLine .. border_chars.TOP_RIGHT }
   local middle_line = border_chars.MID_VERTICAL .. string.rep(" ", width) .. border_chars.MID_VERTICAL
   for _ = 1, height do
@@ -108,7 +108,7 @@ function M.create_win(opts)
     vim.cmd "redraw"
     api.nvim_buf_set_option(border_win_buf_pair.buf, "bufhidden", "hide")
     border_buf = border_win_buf_pair.buf
-    fill_border_data(border_buf, opts.width, opts.height, opts.title, opts.border_chars)
+    fill_border(border_buf, opts.width, opts.height, opts.title, opts.border_chars)
     api.nvim_win_set_option(border_win_buf_pair.win, "winhl", "Normal:" .. opts.border_highlight)
   end
 
