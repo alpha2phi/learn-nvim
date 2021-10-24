@@ -1,0 +1,9 @@
+================================================================================
+                                                                *learn-nvim*
+
+learn-nvim is a plugin developed as part of the Learn Neovim The Practical Way series.
+
+To find out more:
+https://github.com/alpha2phi/learn-nvim
+
+================================================================================
