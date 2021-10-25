@@ -1,24 +1,20 @@
-local api = vim.api
-local popup = require "learn-nvim.popup"
+require("plenary.reload").reload_module "learn-nvim"
 
-local function create_floating_win()
-  local editorWidth = api.nvim_get_option "columns"
-  local editorHeight = api.nvim_get_option "lines"
-  local opts = {
-    height = math.ceil(editorHeight * 0.8 - 4),
-    width = math.ceil(editorWidth * 0.8),
-    border = true,
-    title = "Floating Window",
-    text = "A floating window created using Neovim APIs",
-  }
-  opts.row = math.ceil((editorHeight - opts.height) / 2 - 1)
-  opts.col = math.ceil((editorWidth - opts.width) / 2)
-  local win_buf = popup.create_win(opts)
-  api.nvim_buf_set_option(win_buf.buf, "bufhidden", "wipe")
-  api.nvim_win_set_option(win_buf.win, "winhl", "Normal:Normal")
-  api.nvim_win_set_option(win_buf.win, "number", true)
-  api.nvim_set_current_win(win_buf.win)
-  return win_buf
-end
+local popup = require "plenary.popup"
 
-create_floating_win()
+vim.cmd [[highlight PopupColor ctermbg=black ctermfg=white guifg=white guibg=green]]
+
+popup.create({ "another one", "another two", "another three" }, {
+  line = 10,
+  col = 25,
+  minwidth = 20,
+  -- highlight = "PopupColor",
+})
+
+popup.create("all the plus signs", {
+  line = 8,
+  col = 55,
+  padding = { 0, 3, 0, 3 },
+  border = { 0, 1, 0, 1 },
+  borderchars = { "-", "+" },
+})
