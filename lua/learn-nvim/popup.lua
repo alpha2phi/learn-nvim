@@ -2,14 +2,14 @@ require("plenary.reload").reload_module "learn-nvim"
 
 local popup = require "plenary.popup"
 
-vim.cmd [[highlight PopupColor ctermbg=black ctermfg=blue guifg=blue guibg=green]]
-
 local function create_default_popup()
-  local win_id = popup.create({ "item 1", "item 2", "item 3" }, {})
+  local win_id = popup.create({ "menu item 1", "menu item 2", "menu item 3" }, {})
   print(win_id)
 end
 
 create_default_popup()
+
+vim.cmd [[highlight PopupColor ctermbg=black ctermfg=blue guifg=blue guibg=green]]
 
 local function create_highlight_popup()
   local win_id = popup.create({ "item 1", "item 2", "item 3" }, {
@@ -38,4 +38,4 @@ local function create_border_popup(borderchars)
   print(border_bufnr)
 end
 
--- create_border_popup { "+" }
+create_border_popup { "+" }
