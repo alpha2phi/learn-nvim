@@ -2,11 +2,12 @@ require("plenary.reload").reload_module "learn-nvim"
 
 local curl = require "plenary.curl"
 
-local function invoke_api()
-  local res = curl.get("https://postman-echo.com/get", {
-    accept = "application/json",
-  })
-  print(vim.inspect.inspect(res))
-end
+local res = curl.get("https://jsonplaceholder.typicode.com/todos", {
+  accept = "application/json",
+})
+print(vim.inspect.inspect(res))
 
-invoke_api()
+local res = curl.post("https://postman-echo.com/post", {
+  body = "John Doe",
+})
+print(vim.inspect.inspect(res))
